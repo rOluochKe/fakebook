@@ -1,0 +1,58 @@
+<header class="fixed-top navbar-dark bg-dark shadow">
+
+  <div>
+    <nav class="navbar navbar-expand-sm">
+      <div class ="navbar-header"> 
+        <%= link_to posts_path, class: "text-light" do %>
+          <%=image_tag("user-secret-solid.svg", id: "logo", class: "navbar-branch")%>
+          <span class="text-white font-weight-bold font-courgette size-24">SpyBook</span>
+        <% end %>
+      </div>
+
+      <div class= "container mx-auto">
+        <div class= "row mx-auto">
+          <div class= "col-auto">
+            <%= link_to posts_path, class: "text-light nav-link font-raleway" do%>
+              <i class="fas fa-home fa-2x"></i> Timeline
+            <%end%>
+          </div>
+
+          <div class= "col-auto">
+            <%= link_to users_path, class: "text-light nav-link font-raleway" do%>
+              <i class="fas fa-users fa-2x"></i> Find Friends
+            <%end%>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav ml-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= button_to saw_notice_path, :class => "text-white btn notice-btn-#{notification_seen}",
+             data: {toggle: 'modal', target: '#noticeModal'}, method: :get, remote: true do %>
+             <% if notification_seen %>
+              <i class="fas fa-bell-slash"></i>
+             <% else %>
+              <i class="fas fa-bell"></i>
+             <% end %>
+            <% end %>
+          </li>
+          <li class="nav-item dropdown">
+            <a id= "navbarDropdown" class="nav-link dropdown-toggle font-raleway" 
+                href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Account <b class="caret"></b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to "My Profile", user_path(current_user), class: "dropdown-item font-raleway" %>
+              <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item font-raleway", method: :delete %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<% if user_signed_in? %>
+  <%= render 'shared/notifications', object: current_user.notifications%>
+<%end%>
